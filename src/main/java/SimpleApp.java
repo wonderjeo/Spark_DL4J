@@ -19,7 +19,7 @@ public class SimpleApp {
         JavaRDD<String> Words = lines.flatMap(new FlatMapFunction<String, String>() {
             @Override
             public Iterator<String> call(String line) throws Exception {
-                return (Iterator<String>) Arrays.asList(line.split(" "));
+                return Arrays.asList(line.split(" ")).iterator();
             }
         });
 

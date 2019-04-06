@@ -1,3 +1,4 @@
+import org.apache.spark.SparkConf;
 import org.datavec.api.records.reader.RecordReader;
 import org.datavec.api.records.reader.impl.csv.CSVRecordReader;
 import org.apache.spark.api.java.JavaRDD;
@@ -20,8 +21,11 @@ import java.util.regex.Pattern;
 
 public class SimpleApp {
     public static void main(String[] args){
+        SparkConf conf = new SparkConf()
+                .setAppName("SimpleApp")
+                .setMaster("yarn");
         String filePath = "hdfs:///data/fashion-mnist_test.csv";
-        JavaSparkContext sc = new JavaSparkContext();
+        JavaSparkContext sc = new JavaSparkContext(conf);
         JavaRDD<String> rddString = sc.textFile(filePath);
         RecordReader recordReader = new CSVRecordReader(',');
         JavaRDD<List<Writable>> rddWriteables = rddString.map(new StringToWritablesFunction(recordReader));

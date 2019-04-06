@@ -23,12 +23,7 @@ public class SimpleApp {
 
         JavaSparkContext sc = new JavaSparkContext(conf);
         JavaRDD<String> rddString = sc.textFile("hdfs:///data/fashion-mnist_test.csv");
-        RecordReader recordReader = new CSVRecordReader(',');
-        JavaRDD<List<Writable>> rddWritables = rddString.map(new StringToWritablesFunction(recordReader));
 
-        int labelIndex = 1;
-        int numLabelClasses = 10;
-        JavaRDD<DataSet> rddDataSetClassification = rddWritables.map(new DataVecDataSetFunction(labelIndex, numLabelClasses,false));
 
 
     }

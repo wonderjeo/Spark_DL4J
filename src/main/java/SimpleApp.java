@@ -1,39 +1,49 @@
 import org.apache.spark.SparkConf;
-import org.datavec.api.records.reader.RecordReader;
-import org.datavec.api.records.reader.impl.csv.CSVRecordReader;
+import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.FlatMapFunction;
-import org.apache.spark.api.java.function.Function;
 import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.api.java.function.PairFunction;
-import org.apache.spark.sql.Dataset;
-import org.datavec.api.writable.Writable;
-import org.datavec.spark.transform.misc.StringToWritablesFunction;
-import org.deeplearning4j.spark.datavec.DataVecDataSetFunction;
-import org.nd4j.linalg.dataset.DataSet;
+import org.apache.spark.api.java.function.VoidFunction;
 import scala.Tuple2;
 
-
 import java.util.Arrays;
-import java.util.List;
-import java.util.regex.Pattern;
 
 public class SimpleApp {
     public static void main(String[] args){
         SparkConf conf = new SparkConf()
                 .setAppName("SimpleApp")
                 .setMaster("yarn");
-        String filePath = "hdfs:///data/fashion-mnist_test.csv";
+
         JavaSparkContext sc = new JavaSparkContext(conf);
-        JavaRDD<String> rddString = sc.textFile(filePath);
-        RecordReader recordReader = new CSVRecordReader(',');
-        JavaRDD<List<Writable>> rddWriteables = rddString.map(new StringToWritablesFunction(recordReader));
+        JavaRDD<String> lines = sc.textFile("hdfs:///data/lr.txt",1);
+        JavaRDD<String> Words = lines.flatMap(new FlatMapFunction<String, String>() {
+            @Override
+            public Iterable<String> call(String line) throws Exception {
+                return Arrays.asList(line.split(" "));
+            }
+        });
 
-        int labelIndex = 1;
-        int numLabelClasses = 10;
-        JavaRDD<DataSet> rddDataSetClassification = rddWriteables.map(new DataVecDataSetFunction(labelIndex, numLabelClasses, false));
+        JavaPairRDD<String, Integer> pairs = Words.mapToPair(new PairFunction<String, String, Integer>() {
+            @Override
+            public Tuple2<String, Integer> call(String word) throws Exception {
+                return new Tuple2<String, Integer>(word, 1);
+            }
+        });
+        JavaPairRDD<String, Integer> wordscount = pairs.reduceByKey(new Function2<Integer, Integer, Integer>() {
+            @Override
+            public Integer call(Integer v1, Integer v2) throws Exception {
+                return v1+v2;
+            }
+        });
 
+        wordscount.foreach(new VoidFunction<Tuple2<String, Integer>>() {
+            @Override
+            public void call(Tuple2<String, Integer> pairs) throws Exception {
+                System.out.println(pairs._1+":"+pairs._2);
+            }
+        });
 
 
     }

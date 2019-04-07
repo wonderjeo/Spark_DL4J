@@ -13,10 +13,10 @@
         <scala.version>2.11</scala.version>
         <hadoop.version>2.7.5</hadoop.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <nd4j.version>1.0.0-beta3</nd4j.version>
+        <nd4j.version>0.7.2</nd4j.version>
         <nd4j.backend>nd4j-native-platform</nd4j.backend>
-        <dl4j.version>0.7.1</dl4j.version>
-        <datavec.version>0.7.1</datavec.version>
+        <dl4j.version>0.7.2</dl4j.version>
+        <datavec.version>0.7.2</datavec.version>
         <scala.binary.version>2.10</scala.binary.version>
     </properties>
 
@@ -66,7 +66,7 @@
         <dependency>
             <groupId>org.nd4j</groupId>
             <artifactId>nd4j-api</artifactId>
-            <version>0.9.1</version>
+            <version>0.7.2</version>
         </dependency>
 
         <dependency>
@@ -74,43 +74,18 @@
             <artifactId>nd4j-native</artifactId>
             <version>${nd4j.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.nd4j/nd4j-jblas -->
-        <dependency>
-            <groupId>org.nd4j</groupId>
-            <artifactId>nd4j-jblas</artifactId>
-            <version>0.4-rc3.6</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.nd4j/nd4j-x86 -->
-        <dependency>
-            <groupId>org.nd4j</groupId>
-            <artifactId>nd4j-x86</artifactId>
-            <version>0.4-rc3.8</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.nd4j/nd4j-jackson -->
-        <dependency>
-            <groupId>org.nd4j</groupId>
-            <artifactId>nd4j-jackson</artifactId>
-            <version>0.9.1</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.nd4j/nd4j-base64 -->
-        <dependency>
-            <groupId>org.nd4j</groupId>
-            <artifactId>nd4j-base64</artifactId>
-            <version>0.9.1</version>
-        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.nd4j/nd4j-common -->
         <dependency>
             <groupId>org.nd4j</groupId>
             <artifactId>nd4j-common</artifactId>
-            <version>0.9.1</version>
+            <version>0.7.2</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.nd4j/nd4j-buffer -->
         <dependency>
             <groupId>org.nd4j</groupId>
             <artifactId>nd4j-buffer</artifactId>
-            <version>0.9.1</version>
+            <version>0.7.2</version>
         </dependency>
         <dependency>
             <groupId>org.nd4j</groupId>
@@ -155,7 +130,7 @@
         <dependency>
             <groupId>org.datavec</groupId>
             <artifactId>datavec-api</artifactId>
-            <version>0.9.1</version>
+            <version>0.7.2</version>
         </dependency>
 
     </dependencies>

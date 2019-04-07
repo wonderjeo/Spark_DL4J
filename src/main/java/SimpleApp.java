@@ -35,7 +35,7 @@ public class SimpleApp {
     public static void main(String[] args){
         SparkConf conf = new SparkConf()
                 .setAppName("SimpleApp")
-                .setMaster("local");
+                .setMaster("yarn");
 
         JavaSparkContext sc = new JavaSparkContext(conf);
 
@@ -44,7 +44,7 @@ public class SimpleApp {
         //System.out.println("Loading"+imageLoader);
 //        final DataNormalization scaler = new ImagePreProcessingScaler(0,1);
 
-        String srcPath = "C:\\yyyue\\scalaa\\sparktest\\test\\test";
+        String srcPath = "hdfs:///data/test";
         FileSystem hdfs = null;
         try {
             hdfs = FileSystem.get(URI.create(srcPath), sc.hadoopConfiguration());
@@ -80,6 +80,6 @@ public class SimpleApp {
                 return trainData;
             }
         });
-        javaRDDImagePath.saveAsObjectFile("C:\\yyyue\\scalaa\\sparktest\\test\\");
+        javaRDDImagePath.saveAsObjectFile("hdfs:///mnistNorm.dat");
     }
 }

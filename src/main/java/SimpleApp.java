@@ -12,6 +12,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.*;
 import org.datavec.api.records.reader.impl.csv.CSVRecordReader;
 import org.datavec.image.loader.ImageLoader;
+import org.datavec.image.loader.NativeImageLoader;
 import org.deeplearning4j.spark.datavec.DataVecDataSetFunction;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.DataSet;
@@ -39,7 +40,7 @@ public class SimpleApp {
         JavaSparkContext sc = new JavaSparkContext(conf);
 
         final List<String> lstLabelNames = Arrays.asList("0","1","2","3","4","5","6","7","8","9");
-//        final ImageLoader imageLoader = new ImageLoader(28,28,1);
+        final NativeImageLoader imageLoader = new NativeImageLoader(28,28,1);
 //        final DataNormalization scaler = new ImagePreProcessingScaler(0,1);
 
         String srcPath = "hdfs:///data/test";
@@ -60,24 +61,24 @@ public class SimpleApp {
             lstFilePath.add(srcPath + "/" + fileStatus.getPath().getName());
         }
         JavaRDD<String> javaRDDImagePath = sc.parallelize(lstFilePath);
-//        JavaRDD<DataSet> javaRDDImageTrain = javaRDDImagePath.map(new Function<String, DataSet>() {
-//            @Override
-//            public DataSet call(String imagePath) throws Exception {
-//                FileSystem fs = FileSystem.get(new Configuration());
-//                DataInputStream in = fs.open(new Path(imagePath));
-//                INDArray features = imageLoader.asRowVector(in);
-//                //String[] tokens = imagePath.split("\\/");
-//                //String label = tokens[tokens.length-1].split("\\.")[0];
-//                int intLabel = 1;
-//                INDArray labels = Nd4j.zeros(10);
-//                labels.putScalar(0,intLabel, 1.0);
-//                DataSet trainData = new DataSet(features, labels);
-//                trainData.setLabelNames(lstLabelNames);
-//                scaler.preProcess(trainData);
-//                fs.close();
-//                return trainData;
-//            }
-//        });
-        javaRDDImagePath.saveAsObjectFile("mnistNorm.dat");
+        JavaRDD<DataSet> javaRDDImageTrain = javaRDDImagePath.map(new Function<String, DataSet>() {
+            @Override
+            public DataSet call(String imagePath) throws Exception {
+                FileSystem fs = FileSystem.get(new Configuration());
+                DataInputStream in = fs.open(new Path(imagePath));
+                INDArray features = imageLoader.asRowVector(in);
+                //String[] tokens = imagePath.split("\\/");
+                //String label = tokens[tokens.length-1].split("\\.")[0];
+                int intLabel = 1;
+                INDArray labels = Nd4j.zeros(10);
+                labels.putScalar(0,intLabel, 1.0);
+                DataSet trainData = new DataSet(features, labels);
+                trainData.setLabelNames(lstLabelNames);
+                //scaler.preProcess(trainData);
+                fs.close();
+                return trainData;
+            }
+        });
+        javaRDDImagePath.saveAsObjectFile("hdfs:///mnistNorm.dat");
     }
 }

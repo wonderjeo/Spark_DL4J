@@ -13,7 +13,8 @@
         <scala.version>2.11</scala.version>
         <hadoop.version>2.7.5</hadoop.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <nd4j.version>0.7.1</nd4j.version>
+        <nd4j.version>1.0.0-beta3</nd4j.version>
+        <nd4j.backend>nd4j-native-platform</nd4j.backend>
         <dl4j.version>0.7.1</dl4j.version>
         <datavec.version>0.7.1</datavec.version>
         <scala.binary.version>2.10</scala.binary.version>
@@ -111,6 +112,28 @@
             <artifactId>nd4j-buffer</artifactId>
             <version>0.9.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.nd4j</groupId>
+            <artifactId>${nd4j.backend}</artifactId>
+            <version>${nd4j.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.nd4j</groupId>
+            <artifactId>nd4j-native-platform</artifactId>
+            <version>${nd4j.version}</version>
+        </dependency>
+
+        <!-- Copy this into your own projects (without the comment block around it), for CUDA (NVIDIA GPU) operations-->
+        <!--
+        <dependency>
+            <groupId>org.nd4j</groupId>
+            <artifactId>nd4j-cuda-9.2-platform</artifactId>
+            <version>${nd4j.version}</version>
+        </dependency>
+        -->
+
 
 
         <dependency>

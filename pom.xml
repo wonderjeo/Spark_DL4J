@@ -73,6 +73,46 @@
             <artifactId>nd4j-native</artifactId>
             <version>${nd4j.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.nd4j/nd4j-jblas -->
+        <dependency>
+            <groupId>org.nd4j</groupId>
+            <artifactId>nd4j-jblas</artifactId>
+            <version>0.4-rc3.6</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.nd4j/nd4j-x86 -->
+        <dependency>
+            <groupId>org.nd4j</groupId>
+            <artifactId>nd4j-x86</artifactId>
+            <version>0.4-rc3.8</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.nd4j/nd4j-jackson -->
+        <dependency>
+            <groupId>org.nd4j</groupId>
+            <artifactId>nd4j-jackson</artifactId>
+            <version>0.9.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.nd4j/nd4j-base64 -->
+        <dependency>
+            <groupId>org.nd4j</groupId>
+            <artifactId>nd4j-base64</artifactId>
+            <version>0.9.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.nd4j/nd4j-common -->
+        <dependency>
+            <groupId>org.nd4j</groupId>
+            <artifactId>nd4j-common</artifactId>
+            <version>0.9.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.nd4j/nd4j-buffer -->
+        <dependency>
+            <groupId>org.nd4j</groupId>
+            <artifactId>nd4j-buffer</artifactId>
+            <version>0.9.1</version>
+        </dependency>
+
+
         <dependency>
             <groupId>org.deeplearning4j</groupId>
             <artifactId>dl4j-spark_2.11</artifactId>

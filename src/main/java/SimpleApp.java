@@ -35,15 +35,16 @@ public class SimpleApp {
     public static void main(String[] args){
         SparkConf conf = new SparkConf()
                 .setAppName("SimpleApp")
-                .setMaster("yarn");
+                .setMaster("local");
 
         JavaSparkContext sc = new JavaSparkContext(conf);
 
         final List<String> lstLabelNames = Arrays.asList("0","1","2","3","4","5","6","7","8","9");
-        final NativeImageLoader imageLoader = new NativeImageLoader(28,28,1);
+        //final NativeImageLoader imageLoader = new NativeImageLoader(28,28,1);
+        //System.out.println("Loading"+imageLoader);
 //        final DataNormalization scaler = new ImagePreProcessingScaler(0,1);
 
-        String srcPath = "hdfs:///data/test";
+        String srcPath = "C:\\yyyue\\scalaa\\sparktest\\test\\test";
         FileSystem hdfs = null;
         try {
             hdfs = FileSystem.get(URI.create(srcPath), sc.hadoopConfiguration());
@@ -66,19 +67,19 @@ public class SimpleApp {
             public DataSet call(String imagePath) throws Exception {
                 FileSystem fs = FileSystem.get(new Configuration());
                 DataInputStream in = fs.open(new Path(imagePath));
-                INDArray features = imageLoader.asRowVector(in);
+                //INDArray features = imageLoader.asRowVector(in);
                 //String[] tokens = imagePath.split("\\/");
                 //String label = tokens[tokens.length-1].split("\\.")[0];
                 int intLabel = 1;
                 INDArray labels = Nd4j.zeros(10);
                 labels.putScalar(0,intLabel, 1.0);
-                DataSet trainData = new DataSet(features, labels);
+                DataSet trainData = new DataSet(labels,labels);
                 trainData.setLabelNames(lstLabelNames);
                 //scaler.preProcess(trainData);
                 fs.close();
                 return trainData;
             }
         });
-        javaRDDImagePath.saveAsObjectFile("hdfs:///mnistNorm.dat");
+        javaRDDImagePath.saveAsObjectFile("C:\\yyyue\\scalaa\\sparktest\\test\\");
     }
 }

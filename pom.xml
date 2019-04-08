@@ -65,26 +65,58 @@
             <version>4.12</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.deeplearning4j/deeplearning4j-core -->
         <dependency>
             <groupId>org.deeplearning4j</groupId>
             <artifactId>deeplearning4j-core</artifactId>
-            <version>0.7.2</version>
+            <version>1.0.0-beta3</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.nd4j/nd4j-api -->
+        <dependency>
+            <groupId>org.nd4j</groupId>
+            <artifactId>nd4j-api</artifactId>
+            <version>1.0.0-beta3</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.nd4j/nd4j-native -->
+        <dependency>
+            <groupId>org.nd4j</groupId>
+            <artifactId>nd4j-native</artifactId>
+            <version>1.0.0-beta3</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.nd4j/nd4j-native-platform -->
+        <dependency>
+            <groupId>org.nd4j</groupId>
+            <artifactId>nd4j-native-platform</artifactId>
+            <version>1.0.0-beta3</version>
         </dependency>
 
-        <dependency>
-        <groupId>org.nd4j</groupId>
-        <artifactId>nd4j-native-platform</artifactId>
-        <version>0.7.2</version>
-        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.deeplearning4j/dl4j-spark -->
         <dependency>
             <groupId>org.deeplearning4j</groupId>
-            <artifactId>dl4j-spark_${scala.binary.version}</artifactId>
-            <version>${dl4j.version}</version>
+            <artifactId>dl4j-spark_2.11</artifactId>
+            <version>1.0.0-beta3_spark_2</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.datavec/datavec-spark -->
+        <dependency>
+            <groupId>org.datavec</groupId>
+            <artifactId>datavec-spark_2.11</artifactId>
+            <version>1.0.0-beta3_spark_2</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.datavec/datavec-api -->
         <dependency>
             <groupId>org.datavec</groupId>
             <artifactId>datavec-api</artifactId>
-            <version>0.7.2</version>
+            <version>1.0.0-beta3</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.datavec/datavec-data-image -->
+        <dependency>
+            <groupId>org.datavec</groupId>
+            <artifactId>datavec-data-image</artifactId>
+            <version>1.0.0-beta3</version>
         </dependency>
 
 

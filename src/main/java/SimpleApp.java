@@ -30,56 +30,44 @@ import java.util.Iterator;
 import java.util.List;
 
 public class SimpleApp {
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
         SparkConf conf = new SparkConf()
-                .setAppName("SimpleApp")
+                .setMaster("yarn")  //local mode
                 .set("spark.kryo.registrator", "org.nd4j.Nd4jRegistrator")
-                .setMaster("yarn");
+                .setAppName("Mnist Java Spark (Java)");
+        JavaSparkContext jsc = new JavaSparkContext(conf);
 
-        JavaSparkContext sc = new JavaSparkContext(conf);
-
-        final List<String> lstLabelNames = Arrays.asList("0","1","2","3","4","5","6","7","8","9");
-        final ImageLoader imageLoader = new ImageLoader(28,28,1);
-        //System.out.println("Loading"+imageLoader);
-        final DataNormalization scaler = new ImagePreProcessingScaler(0,1);
+        final List<String> lstLabelNames = Arrays.asList("零","一","二","三","四","五","六","七","八","九");  //Chinese Label
+        final ImageLoader imageLoader = new ImageLoader(28, 28, 1);             //Load Image
+        final DataNormalization scaler = new ImagePreProcessingScaler(0, 1);    //Normalize
 
         String srcPath = "hdfs:///data/test";
-        FileSystem hdfs = null;
-        try {
-            hdfs = FileSystem.get(URI.create(srcPath), sc.hadoopConfiguration());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        FileStatus[] fileList = null;
-        try {
-            fileList = hdfs.listStatus(new Path(srcPath));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        FileSystem hdfs = FileSystem.get(URI.create(srcPath),jsc.hadoopConfiguration());    //hdfs read local file system
+        FileStatus[] fileList = hdfs.listStatus(new Path(srcPath));
         List<String> lstFilePath = new ArrayList<>();
-        for(FileStatus fileStatus : fileList){
+        for( FileStatus fileStatus :  fileList){
             lstFilePath.add(srcPath + "/" + fileStatus.getPath().getName());
         }
-        JavaRDD<String> javaRDDImagePath = sc.parallelize(lstFilePath);
+        JavaRDD<String> javaRDDImagePath = jsc.parallelize(lstFilePath);
         JavaRDD<DataSet> javaRDDImageTrain = javaRDDImagePath.map(new Function<String, DataSet>() {
+
             @Override
             public DataSet call(String imagePath) throws Exception {
                 FileSystem fs = FileSystem.get(new Configuration());
                 DataInputStream in = fs.open(new Path(imagePath));
-                INDArray features = imageLoader.asRowVector(in);
-                //String[] tokens = imagePath.split("\\/");
-                //String label = tokens[tokens.length-1].split("\\.")[0];
-                int intLabel = 1;
-                INDArray labels = Nd4j.zeros(10);
-                labels.putScalar(0,intLabel, 1.0);
-                DataSet trainData = new DataSet(labels,features);
+                INDArray features = imageLoader.asRowVector(in);            //features tensor
+                String[] tokens = imagePath.split("\\/");
+                String label = tokens[tokens.length-1].split("\\_")[0];
+                int intLabel = Integer.parseInt(label);
+                INDArray labels = Nd4j.zeros(10);                           //labels tensor
+                labels.putScalar(0, intLabel, 1.0);
+                DataSet trainData = new DataSet(features, labels);          //DataSet, wrapper of features and labels
                 trainData.setLabelNames(lstLabelNames);
-                scaler.preProcess(trainData);
+                scaler.preProcess(trainData);                               //normalize
                 fs.close();
                 return trainData;
             }
         });
-
         javaRDDImageTrain.saveAsObjectFile("hdfs:///mnistNorm.dat");
     }
 }

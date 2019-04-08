@@ -79,11 +79,7 @@ public class SimpleApp {
                 return trainData;
             }
         });
-        try {
-            hdfs.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
         javaRDDImageTrain.saveAsObjectFile("hdfs:///mnistNorm.dat");
     }
 }

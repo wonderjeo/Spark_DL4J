@@ -33,6 +33,7 @@ public class SimpleApp {
     public static void main(String[] args){
         SparkConf conf = new SparkConf()
                 .setAppName("SimpleApp")
+                .set("spark.kryo.registrator", "org.nd4j.Nd4jRegistrator")
                 .setMaster("yarn");
 
         JavaSparkContext sc = new JavaSparkContext(conf);

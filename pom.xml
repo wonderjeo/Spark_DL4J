@@ -12,14 +12,23 @@
         <spark.version>2.4.0</spark.version>
         <scala.version>2.11</scala.version>
         <hadoop.version>2.7.5</hadoop.version>
-        <nd4j.backend>nd4j-native-platform</nd4j.backend>
-        <shadedClassifier>bin</shadedClassifier>
         <java.version>1.8</java.version>
-        <nd4j.version>0.7.2</nd4j.version>
-        <dl4j.version>0.7.2</dl4j.version>
-        <datavec.version>0.7.2</datavec.version>
-        <logback.version>1.1.7</logback.version>
         <scala.binary.version>2.11</scala.binary.version>
+
+        <nd4j.backend>nd4j-native-platform</nd4j.backend>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <shadedClassifier>bin</shadedClassifier>
+        <java.version>1.7</java.version>
+        <nd4j.version>0.6.0</nd4j.version>
+        <dl4j.version>0.6.0</dl4j.version>
+        <datavec.version>0.6.0</datavec.version>
+        <arbiter.version>0.6.0</arbiter.version>
+        <guava.version>19.0</guava.version>
+        <logback.version>1.1.7</logback.version>
+        <jfreechart.version>1.0.13</jfreechart.version>
+        <maven-shade-plugin.version>2.4.3</maven-shade-plugin.version>
+        <exec-maven-plugin.version>1.4.0</exec-maven-plugin.version>
+        <maven.minimum.version>3.3.1</maven.minimum.version>
     </properties>
 
 
@@ -65,63 +74,63 @@
             <version>4.12</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.deeplearning4j/deeplearning4j-core -->
-        <dependency>
-            <groupId>org.deeplearning4j</groupId>
-            <artifactId>deeplearning4j-core</artifactId>
-            <version>1.0.0-beta3</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.nd4j/nd4j-api -->
-        <dependency>
-            <groupId>org.nd4j</groupId>
-            <artifactId>nd4j-api</artifactId>
-            <version>1.0.0-beta3</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.nd4j/nd4j-native -->
-        <dependency>
-            <groupId>org.nd4j</groupId>
-            <artifactId>nd4j-native</artifactId>
-            <version>1.0.0-beta3</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.nd4j/nd4j-native-platform -->
         <dependency>
             <groupId>org.nd4j</groupId>
             <artifactId>nd4j-native-platform</artifactId>
-            <version>1.0.0-beta3</version>
+            <version>${nd4j.version}</version>
         </dependency>
-
-
-        <!-- https://mvnrepository.com/artifact/org.deeplearning4j/dl4j-spark -->
-        <dependency>
-            <groupId>org.deeplearning4j</groupId>
-            <artifactId>dl4j-spark_2.11</artifactId>
-            <version>1.0.0-beta3_spark_2</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.datavec/datavec-spark -->
-        <dependency>
-            <groupId>org.datavec</groupId>
-            <artifactId>datavec-spark_2.11</artifactId>
-            <version>1.0.0-beta3_spark_2</version>
-        </dependency>
+        <!-- ND4J后端。每个DL4J项目都需要一个。一般将artifactId指定为"nd4j-native-platform"或者"nd4j-cuda-7.5-platform" -->
         <dependency>
             <groupId>org.nd4j</groupId>
-            <artifactId>nd4j-kryo_${scala.binary.version}</artifactId>
-            <version>1.0.0-beta3</version>
+            <artifactId>${nd4j.backend}</artifactId>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.datavec/datavec-api -->
+        <!-- DL4J核心功能 -->
         <dependency>
-            <groupId>org.datavec</groupId>
-            <artifactId>datavec-api</artifactId>
-            <version>1.0.0-beta3</version>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>deeplearning4j-core</artifactId>
+            <version>${dl4j.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.datavec/datavec-data-image -->
+
         <dependency>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>deeplearning4j-nlp</artifactId>
+            <version>${dl4j.version}</version>
+        </dependency>
+
+        <!-- deeplearning4j-ui用于HistogramIterationListener + 可视化：参见http://deeplearning4j.org/cn/visualization -->
+        <dependency>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>deeplearning4j-ui</artifactId>
+            <version>${dl4j.version}</version>
+        </dependency>
+
+        <!-- 强制指定使用UI/HistogramIterationListener时的guava版本 -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
+
+        <!-- datavec-data-codec：仅用于在视频处理示例中加载视频数据 -->
+        <dependency>
+            <artifactId>datavec-data-codec</artifactId>
             <groupId>org.datavec</groupId>
-            <artifactId>datavec-data-image</artifactId>
-            <version>1.0.0-beta3</version>
+            <version>${datavec.version}</version>
+        </dependency>
+
+        <!-- 用于前馈/分类/MLP*和前馈/回归/RegressionMathFunctions示例 -->
+        <dependency>
+            <groupId>jfree</groupId>
+            <artifactId>jfreechart</artifactId>
+            <version>${jfreechart.version}</version>
+        </dependency>
+
+        <!-- Arbiter：用于超参数优化示例 -->
+        <dependency>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>arbiter-deeplearning4j</artifactId>
+            <version>${arbiter.version}</version>
         </dependency>
 
 

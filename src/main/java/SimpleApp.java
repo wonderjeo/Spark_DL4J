@@ -39,7 +39,7 @@ public class SimpleApp {
         JavaSparkContext sc = new JavaSparkContext(conf);
 
         final List<String> lstLabelNames = Arrays.asList("0","1","2","3","4","5","6","7","8","9");
-        final NativeImageLoader imageLoader = new NativeImageLoader(28,28,1);
+        final ImageLoader imageLoader = new ImageLoader(28,28,1);
         //System.out.println("Loading"+imageLoader);
         final DataNormalization scaler = new ImagePreProcessingScaler(0,1);
 

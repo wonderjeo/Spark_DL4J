@@ -14,6 +14,7 @@ import org.datavec.api.records.reader.impl.csv.CSVRecordReader;
 import org.datavec.image.loader.ImageLoader;
 import org.datavec.image.loader.NativeImageLoader;
 import org.deeplearning4j.spark.datavec.DataVecDataSetFunction;
+import org.deeplearning4j.spark.impl.paramavg.ParameterAveragingTrainingMaster;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.DataSet;
 import org.nd4j.linalg.dataset.api.preprocessor.DataNormalization;
@@ -38,11 +39,14 @@ public class SimpleApp {
         JavaSparkContext jsc = new JavaSparkContext(conf);
 
         final List<String> lstLabelNames = Arrays.asList("零","一","二","三","四","五","六","七","八","九");  //Chinese Label
-        final NativeImageLoader imageLoader = new NativeImageLoader(28, 28, 1);             //Load Image
+        final ImageLoader imageLoader = new ImageLoader(28, 28, 1);             //Load Image
         final DataNormalization scaler = new ImagePreProcessingScaler(0, 1);    //Normalize
+        final int numBatch = 32;
 
         String srcPath = "hdfs:///data/test";
-        FileSystem hdfs = FileSystem.get(URI.create(srcPath),jsc.hadoopConfiguration());    //hdfs read local file system
+        Configuration hconf = new Configuration();
+        Path path = new Path(srcPath);
+        FileSystem hdfs = path.getFileSystem(hconf);    //hdfs read local file system
         FileStatus[] fileList = hdfs.listStatus(new Path(srcPath));
         List<String> lstFilePath = new ArrayList<>();
         for( FileStatus fileStatus :  fileList){
@@ -69,5 +73,11 @@ public class SimpleApp {
             }
         });
         javaRDDImageTrain.saveAsObjectFile("hdfs:///mnistNorm.dat");
+        ParameterAveragingTrainingMaster trainMaster = new ParameterAveragingTrainingMaster.Builder(numBatch)   //weight average service
+                .workerPrefetchNumBatches(0)
+                .saveUpdater(true)
+                .averagingFrequency(5)
+                .batchSizePerWorker(numBatch)
+                .build();
     }
 }

@@ -74,11 +74,16 @@ public class SimpleApp {
                 labels.putScalar(0,intLabel, 1.0);
                 DataSet trainData = new DataSet(labels,features);
                 trainData.setLabelNames(lstLabelNames);
-                //scaler.preProcess(trainData);
+                scaler.preProcess(trainData);
                 fs.close();
                 return trainData;
             }
         });
+        try {
+            hdfs.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         javaRDDImageTrain.saveAsObjectFile("hdfs:///mnistNorm.dat");
     }
 }

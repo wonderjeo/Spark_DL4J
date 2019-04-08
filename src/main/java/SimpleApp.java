@@ -71,13 +71,13 @@ public class SimpleApp {
                 int intLabel = 1;
                 INDArray labels = Nd4j.zeros(10);
                 labels.putScalar(0,intLabel, 1.0);
-                DataSet trainData = new DataSet(labels,labels);
+                DataSet trainData = new DataSet(labels,features);
                 trainData.setLabelNames(lstLabelNames);
                 //scaler.preProcess(trainData);
                 fs.close();
                 return trainData;
             }
         });
-        javaRDDImagePath.saveAsObjectFile("hdfs:///mnistNorm.dat");
+        javaRDDImageTrain.saveAsObjectFile("hdfs:///mnistNorm.dat");
     }
 }

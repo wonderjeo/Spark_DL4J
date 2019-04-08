@@ -105,6 +105,11 @@
             <artifactId>datavec-spark_2.11</artifactId>
             <version>1.0.0-beta3_spark_2</version>
         </dependency>
+        <dependency>
+            <groupId>org.nd4j</groupId>
+            <artifactId>nd4j-kryo_${scala.binary.version}</artifactId>
+            <version>1.0.0-beta3</version>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.datavec/datavec-api -->
         <dependency>

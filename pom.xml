@@ -19,10 +19,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <shadedClassifier>bin</shadedClassifier>
         <java.version>1.7</java.version>
-        <nd4j.version>0.6.0</nd4j.version>
-        <dl4j.version>0.6.0</dl4j.version>
-        <datavec.version>0.6.0</datavec.version>
-        <arbiter.version>0.6.0</arbiter.version>
+        <nd4j.version>1.0.0-beta2</nd4j.version>
+        <dl4j.version>1.0.0-beta2</dl4j.version>
+        <datavec.version>1.0.0-beta2</datavec.version>
+        <arbiter.version>1.0.0-beta2</arbiter.version>
         <guava.version>19.0</guava.version>
         <logback.version>1.1.7</logback.version>
         <jfreechart.version>1.0.13</jfreechart.version>
@@ -98,13 +98,6 @@
             <version>${dl4j.version}</version>
         </dependency>
 
-        <!-- deeplearning4j-ui用于HistogramIterationListener + 可视化：参见http://deeplearning4j.org/cn/visualization -->
-        <dependency>
-            <groupId>org.deeplearning4j</groupId>
-            <artifactId>deeplearning4j-ui</artifactId>
-            <version>${dl4j.version}</version>
-        </dependency>
-
         <!-- 强制指定使用UI/HistogramIterationListener时的guava版本 -->
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -133,6 +126,12 @@
             <version>${arbiter.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>dl4j-spark_2.11</artifactId>
+            <version>1.0.0-beta2_spark_2</version>
+        </dependency>
+
 
     </dependencies>
 
@@ -151,20 +150,16 @@
 
     <build>
         <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
+            <!-- Other plugins here if required -->
+
+            <!-- Configure maven shade to produce an uber-jar when running "mvn package" -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>2.3</version>
+                <version>${maven-shade-plugin.version}</version>
                 <configuration>
                     <shadedArtifactAttached>true</shadedArtifactAttached>
-                    <shadedClassifierName>${shadedClassifier}</shadedClassifierName>
+                    <shadedClassifierName>bin</shadedClassifierName>
                     <createDependencyReducedPom>true</createDependencyReducedPom>
                     <filters>
                         <filter>
@@ -178,6 +173,7 @@
                         </filter>
                     </filters>
                 </configuration>
+
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -197,7 +193,16 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>7</source>
+                    <target>7</target>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
 
 </project>

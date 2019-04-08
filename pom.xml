@@ -19,7 +19,7 @@
         <dl4j.version>0.7.2</dl4j.version>
         <datavec.version>0.7.2</datavec.version>
         <logback.version>1.1.7</logback.version>
-        <scala.binary.version>2.10</scala.binary.version>
+        <scala.binary.version>2.11</scala.binary.version>
     </properties>
 
 
@@ -68,19 +68,23 @@
         <dependency>
             <groupId>org.deeplearning4j</groupId>
             <artifactId>deeplearning4j-core</artifactId>
-            <version>0.9.1</version>
+            <version>0.7.2</version>
         </dependency>
 
         <dependency>
         <groupId>org.nd4j</groupId>
         <artifactId>nd4j-native-platform</artifactId>
-        <version>0.9.1</version>
+        <version>0.7.2</version>
         </dependency>
-        
+        <dependency>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>dl4j-spark_${scala.binary.version}</artifactId>
+            <version>${dl4j.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.datavec</groupId>
             <artifactId>datavec-api</artifactId>
-            <version>0.9.1</version>
+            <version>0.7.2</version>
         </dependency>
 
 

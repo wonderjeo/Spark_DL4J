@@ -19,8 +19,6 @@ import org.nd4j.linalg.dataset.DataSet;
 import org.nd4j.linalg.dataset.api.preprocessor.DataNormalization;
 import org.nd4j.linalg.dataset.api.preprocessor.ImagePreProcessingScaler;
 import org.nd4j.linalg.factory.Nd4j;
-import scala.Tuple2;
-import org.datavec.spark.transform.misc.StringToWritablesFunction;
 import org.apache.hadoop.fs.FileSystem;
 
 import java.io.DataInputStream;
@@ -40,9 +38,9 @@ public class SimpleApp {
         JavaSparkContext sc = new JavaSparkContext(conf);
 
         final List<String> lstLabelNames = Arrays.asList("0","1","2","3","4","5","6","7","8","9");
-        //final NativeImageLoader imageLoader = new NativeImageLoader(28,28,1);
+        final NativeImageLoader imageLoader = new NativeImageLoader(28,28,1);
         //System.out.println("Loading"+imageLoader);
-//        final DataNormalization scaler = new ImagePreProcessingScaler(0,1);
+        final DataNormalization scaler = new ImagePreProcessingScaler(0,1);
 
         String srcPath = "hdfs:///data/test";
         FileSystem hdfs = null;
@@ -67,7 +65,7 @@ public class SimpleApp {
             public DataSet call(String imagePath) throws Exception {
                 FileSystem fs = FileSystem.get(new Configuration());
                 DataInputStream in = fs.open(new Path(imagePath));
-                //INDArray features = imageLoader.asRowVector(in);
+                INDArray features = imageLoader.asRowVector(in);
                 //String[] tokens = imagePath.split("\\/");
                 //String label = tokens[tokens.length-1].split("\\.")[0];
                 int intLabel = 1;

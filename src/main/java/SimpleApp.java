@@ -38,7 +38,7 @@ public class SimpleApp {
         JavaSparkContext jsc = new JavaSparkContext(conf);
 
         final List<String> lstLabelNames = Arrays.asList("零","一","二","三","四","五","六","七","八","九");  //Chinese Label
-        final ImageLoader imageLoader = new ImageLoader(28, 28, 1);             //Load Image
+        final NativeImageLoader imageLoader = new NativeImageLoader(28, 28, 1);             //Load Image
         final DataNormalization scaler = new ImagePreProcessingScaler(0, 1);    //Normalize
 
         String srcPath = "hdfs:///data/test";

@@ -92,7 +92,7 @@ public class SimpleApp {
                 return trainData;
             }
         });
-        javaRDDImageTrain.saveAsObjectFile("hdfs:///mnistNorm.dat");
+        //javaRDDImageTrain.saveAsObjectFile("hdfs:///mnistNorm.dat");
         ParameterAveragingTrainingMaster trainMaster = new ParameterAveragingTrainingMaster.Builder(numBatch)   //weight average service
                 .workerPrefetchNumBatches(0)
                 .saveUpdater(true)

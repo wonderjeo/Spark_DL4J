@@ -145,6 +145,13 @@
             <artifactId>dl4j-spark_2.11</artifactId>
             <version>1.0.0-beta2_spark_2</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>deeplearning4j-core</artifactId>
+            <version>0.9.1</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.nd4j/nd4j-kryo -->
         <dependency>
             <groupId>org.nd4j</groupId>

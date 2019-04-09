@@ -77,7 +77,7 @@ public class SimpleApp {
                 INDArray features = imageLoader.asRowVector(in);            //features tensor
                 String[] tokens = imagePath.split("\\/");
                 String label = tokens[tokens.length-1].split("\\_")[0];
-                int intLabel = Integer.parseInt(label);
+                int intLabel = 1;
                 INDArray labels = Nd4j.zeros(10);                           //labels tensor
                 labels.putScalar(0, intLabel, 1.0);
                 DataSet trainData = new DataSet(features, labels);          //DataSet, wrapper of features and labels
@@ -87,7 +87,7 @@ public class SimpleApp {
                 return trainData;
             }
         });
-        javaRDDImageTrain.saveAsObjectFile("hdfs:///mnistNorm.dat");
+        //javaRDDImageTrain.saveAsObjectFile("hdfs:///mnistNorm.dat");
         ParameterAveragingTrainingMaster trainMaster = new ParameterAveragingTrainingMaster.Builder(numBatch)   //weight average service
                 .workerPrefetchNumBatches(0)
                 .saveUpdater(true)
@@ -187,7 +187,7 @@ public class SimpleApp {
             System.out.println(evalActual.stats());
         }
         FileSystem fhdfs = FileSystem.get(jsc.hadoopConfiguration());
-        Path hdfsPath = new Path("hdfs:/minist-model.zip");
+        Path hdfsPath = new Path("hdfs:///minist-model.zip");
         FSDataOutputStream outputStream = fhdfs.create(hdfsPath);
         MultiLayerNetwork trainedNet = sparkNetwork.getNetwork();
         ModelSerializer.writeModel(trainedNet, outputStream, true);

@@ -61,7 +61,7 @@ public class SimpleApp {
         int outputNum = 10;
         int iterations = 1;
         int seed = 123;
-        int nEpochs = 1;
+        int nEpochs = 1000;
 
         String srcPath = "hdfs:///data/food";
         Configuration hconf = new Configuration();
@@ -144,10 +144,12 @@ public class SimpleApp {
         //train the network on Spark
         for( int i = 0; i < nEpochs; ++i ){
             sparkNetwork.fit(javaRDDImageTrain);
-            System.out.println("----- Epoch " + i + " complete -----");
-            Evaluation evalActual = sparkNetwork.evaluate(javaRDDImageTrain);
-            System.out.println(evalActual.stats());
+//            System.out.println("----- Epoch " + i + " complete -----");
+//            Evaluation evalActual = sparkNetwork.evaluate(javaRDDImageTrain);
+//            System.out.println(evalActual.stats());
         }
+        Evaluation evalActual = sparkNetwork.evaluate(javaRDDImageTrain);
+        System.out.println(evalActual.stats());
         FileSystem fhdfs = FileSystem.get(jsc.hadoopConfiguration());
         Path hdfsPath = new Path("hdfs:///minist-model.zip");
         FSDataOutputStream outputStream = fhdfs.create(hdfsPath);

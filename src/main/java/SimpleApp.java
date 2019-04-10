@@ -61,7 +61,7 @@ public class SimpleApp {
         int outputNum = 10;
         int iterations = 1;
         int seed = 123;
-        int nEpochs = 1;
+        int nEpochs = 2;
 
         String srcPath = "hdfs:///data/test";
         Configuration hconf = new Configuration();
@@ -92,7 +92,7 @@ public class SimpleApp {
                 return trainData;
             }
         });
-        javaRDDImageTrain.saveAsObjectFile("hdfs:///mnistNorm.dat");
+        //javaRDDImageTrain.saveAsObjectFile("hdfs:///mnistNorm.dat");
         ParameterAveragingTrainingMaster trainMaster = new ParameterAveragingTrainingMaster.Builder(numBatch)   //weight average service
                 .workerPrefetchNumBatches(0)
                 .saveUpdater(true)
@@ -149,7 +149,7 @@ public class SimpleApp {
             System.out.println(evalActual.stats());
         }
         FileSystem fhdfs = FileSystem.get(jsc.hadoopConfiguration());
-        Path hdfsPath = new Path("hdfs:/minist-model.zip");
+        Path hdfsPath = new Path("hdfs:///minist-model.zip");
         FSDataOutputStream outputStream = fhdfs.create(hdfsPath);
         MultiLayerNetwork trainedNet = sparkNetwork.getNetwork();
         ModelSerializer.writeModel(trainedNet, outputStream, true);

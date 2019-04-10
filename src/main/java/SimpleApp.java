@@ -82,7 +82,7 @@ public class SimpleApp {
                 INDArray features = imageLoader.asRowVector(in);            //features tensor
                 String[] tokens = imagePath.split("\\/");
                 String label = tokens[tokens.length-1].split("\\_")[0];
-                int intLabel = Integer.parseInt(label);
+                int intLabel = 1;
                 INDArray labels = Nd4j.zeros(10);                           //labels tensor
                 labels.putScalar(0, intLabel, 1.0);
                 DataSet trainData = new DataSet(features, labels);          //DataSet, wrapper of features and labels

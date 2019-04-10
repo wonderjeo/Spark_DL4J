@@ -61,7 +61,7 @@ public class SimpleApp {
         int outputNum = 10;
         int iterations = 1;
         int seed = 123;
-        int nEpochs = 2;
+        int nEpochs = 1;
 
         String srcPath = "hdfs:///data/test";
         Configuration hconf = new Configuration();

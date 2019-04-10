@@ -54,7 +54,7 @@ public class SimpleApp {
         JavaSparkContext jsc = new JavaSparkContext(conf);
 
         final List<String> lstLabelNames = Arrays.asList("零","一","二","三","四","五","六","七","八","九");  //Chinese Label
-        final NativeImageLoader imageLoader = new NativeImageLoader(28, 28, 1);             //Load Image
+        final ImageLoader imageLoader = new ImageLoader(28, 28, 1);             //Load Image
         final DataNormalization scaler = new ImagePreProcessingScaler(0, 1);    //Normalize
         final int numBatch = 32;
         int nChannels = 1;
@@ -63,7 +63,7 @@ public class SimpleApp {
         int seed = 123;
         int nEpochs = 1;
 
-        String srcPath = "hdfs:///data/test";
+        String srcPath = "hdfs:///data/food";
         Configuration hconf = new Configuration();
         Path path = new Path(srcPath);
         FileSystem hdfs = path.getFileSystem(hconf);    //hdfs read local file system
@@ -82,7 +82,7 @@ public class SimpleApp {
                 INDArray features = imageLoader.asRowVector(in);            //features tensor
                 String[] tokens = imagePath.split("\\/");
                 String label = tokens[tokens.length-1].split("\\_")[0];
-                int intLabel = 1;
+                int intLabel = Integer.parseInt(label);
                 INDArray labels = Nd4j.zeros(10);                           //labels tensor
                 labels.putScalar(0, intLabel, 1.0);
                 DataSet trainData = new DataSet(features, labels);          //DataSet, wrapper of features and labels

@@ -151,7 +151,7 @@ public class SimpleApp {
         Evaluation evalActual = sparkNetwork.evaluate(javaRDDImageTrain);
         System.out.println(evalActual.stats());
         FileSystem fhdfs = FileSystem.get(jsc.hadoopConfiguration());
-        Path hdfsPath = new Path("hdfs:///minist-model.zip");
+        Path hdfsPath = new Path("hdfs:///food-model.zip");
         FSDataOutputStream outputStream = fhdfs.create(hdfsPath);
         MultiLayerNetwork trainedNet = sparkNetwork.getNetwork();
         ModelSerializer.writeModel(trainedNet, outputStream, true);
